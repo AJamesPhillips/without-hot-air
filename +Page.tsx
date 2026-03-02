@@ -1,6 +1,6 @@
 import { get_body_preview } from "../../utils/get_body_preview"
 import { post_slugs } from "../blog/@slug/post_slugs"
-import { pages } from "./@slug/pages"
+import { pages } from "./@page_id/pages"
 import "./withouthotair.css"
 
 
@@ -8,7 +8,7 @@ export default function Posts()
 {
     return <>
         <p>
-            This is a temporary page of Professor David Mackay's book Sustainable
+            This is a temporary page of Professor David MacKay's book Sustainable
             Energy Without the Hot Air.  <b style={{ color: "red" }}>Links to this page will likely break in the near future.</b>
         </p>
         <h1>
@@ -40,11 +40,11 @@ export default function Posts()
         {
             const body_preview = get_body_preview(page)
 
-            return <div key={page.slug}>
+            return <div key={page.page_id}>
                 <br />
                 <a href={page.path} style={{ textDecoration: "none", color: "inherit" }}>
                     <article
-                        key={page.slug}
+                        key={page.page_id}
                         style={{ cursor: "pointer" }}
                     >
                         <h2>{page.title}</h2>

@@ -5,7 +5,7 @@ import { Notes } from "../../components/footnote"
 
 export interface Page<D = unknown>
 {
-    slug: string
+    page_id: string
     path: string
     title: string
     get_data?: () => Promise<D>

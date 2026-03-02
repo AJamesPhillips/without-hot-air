@@ -24,7 +24,7 @@ const ids = [
 
 export const chapter_6: Page<DataComponentAsJSON[]> = {
     title: "Chapter 6: Solar",
-    slug: "solar",
+    page_id: "solar",
     path: "/TEMPORARY_withouthotair/solar",
     get_data: () => __dangerously_get_wikisim_components(ids),
     body: (_notes, data) =>

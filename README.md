@@ -1,7 +1,7 @@
 
-# Updating David Mackay's 'Sustainable Energy Without the Hot Air'
+# Updating David MacKay's 'Sustainable Energy Without the Hot Air'
 
-A temporary repo to explore moving Prof David Mackay's book into a wiki and update it.
+A temporary repo to explore moving Prof David MacKay's book into a wiki and update it.
 
 ## TODO - allow others to run this locally
 

@@ -2,14 +2,14 @@
 import { useConfig } from "vike-react/useConfig"
 import type { PageContextServer } from "vike/types"
 
-import { pages_by_slug } from "./pages"
+import { pages_by_id } from "./pages"
 
 
 export type Data = Awaited<ReturnType<typeof data>>
 
 export async function data(pageContext: PageContextServer)
 {
-    const page = pages_by_slug[pageContext.routeParams.slug!]
+    const page = pages_by_id[pageContext.routeParams.page_id!]
 
     // For some reason this call to `useConfig` must come before the async
     // call to `post.get_data()`, otherwise a "Invalid hook call" error occurs.
@@ -28,5 +28,5 @@ export async function data(pageContext: PageContextServer)
         title: page?.title,
     })
 
-    return { slug: page?.slug, post_specific_data }
+    return { page_id: page?.page_id, post_specific_data }
 }
