@@ -1,6 +1,6 @@
 import { get_body_preview } from "../../utils/get_body_preview"
-import { post_slugs } from "../blog/@slug/post_slugs"
 import { pages } from "./@page_id/pages"
+import { article_path_on_ajp_personal } from "./constants"
 import "./withouthotair.css"
 
 
@@ -30,7 +30,7 @@ export default function Posts()
         </p>
 
         <p>
-            In <a href={post_slugs._2026_02_27_david_mackay_without_hot_air.path}>the initial post for
+            In <a href={article_path_on_ajp_personal}>the initial post for
                 this project I raised some questions</a>.
             I would be grateful for your assistance if you are in a position to help
             answer them.  Thanks!
