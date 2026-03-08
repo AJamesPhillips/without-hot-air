@@ -10,6 +10,7 @@ export const onshore_wind = IdAndVersion.from_str("1206v1")
 export const solar_heating_potential_per_person_UK = IdAndVersion.from_str("1191v4")
 export const solar_residential_pv_potential_per_person_UK = IdAndVersion.from_str("1202v1")
 export const solar_farm_pv_potential_per_person_UK = IdAndVersion.from_str("1204v1")
+export const biofuel_potential_per_person_UK = IdAndVersion.from_str("1210v1")
 
 export const ids = [
     cars_uk,
@@ -19,6 +20,7 @@ export const ids = [
     solar_heating_potential_per_person_UK,
     solar_residential_pv_potential_per_person_UK,
     solar_farm_pv_potential_per_person_UK,
+    biofuel_potential_per_person_UK,
 ]
 
 
@@ -36,7 +38,7 @@ export const map_name_to_id_and_version: Record<EnergyFactorName, IdAndVersion |
     "Solar heating": solar_heating_potential_per_person_UK,
     "PV residential": solar_residential_pv_potential_per_person_UK,
     "PV farm": solar_farm_pv_potential_per_person_UK,
-    "Biomass: food, biofuel, wood, waste incineration, landfill gas": undefined,
+    "Biomass: food, biofuel, wood, waste incineration, landfill gas": biofuel_potential_per_person_UK,
     "Shallow offshore wind": undefined,
     "Deep offshore wind": undefined,
     "Wave": undefined,

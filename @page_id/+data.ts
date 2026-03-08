@@ -7,9 +7,9 @@ import { pages_by_id } from "./pages"
 
 export type Data = Awaited<ReturnType<typeof data>>
 
-export async function data(pageContext: PageContextServer)
+export async function data(page_context: PageContextServer)
 {
-    const page = pages_by_id[pageContext.routeParams.page_id!]
+    const page = pages_by_id[page_context.routeParams.page_id!]
 
     // For some reason this call to `useConfig` must come before the async
     // call to `post.get_data()`, otherwise a "Invalid hook call" error occurs.

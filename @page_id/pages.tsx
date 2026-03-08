@@ -1,6 +1,6 @@
 import type { Page } from "../interface"
 import { chapter_6 } from "./pages/chapter_6"
-import { summary } from "./pages/summary"
+// import { summary } from "./pages/summary"
 
 
 export const pages: Page[] = []
@@ -12,7 +12,7 @@ function new_page(page: Page<any>)
 }
 
 
-new_page(summary)
+// new_page(summary)
 new_page(chapter_6)
 
 

@@ -1,11 +1,24 @@
+import { useData } from "vike-react/useData"
+
+import { __dangerously_get_wikisim_components } from "../../utils/__dangerously_get_wikisim_components"
+import { data_components_json_to_getter } from "../../utils/data_components_json_to_map"
 import { get_body_preview } from "../../utils/get_body_preview"
+import { DataComponentAsJSON } from "../../wikisim-core/src/supabase"
 import { pages } from "./@page_id/pages"
+import { ids } from "./components/data"
+import { EnergyBoxesHelper } from "./components/EnergyBoxesHelper"
 import { article_path_on_ajp_personal } from "./constants"
 import "./withouthotair.css"
 
 
+export const load_data = () => __dangerously_get_wikisim_components(ids)
+
+
 export default function Posts()
 {
+    const data = useData<{ post_specific_data: DataComponentAsJSON[] }>()
+    const components = data_components_json_to_getter(data.post_specific_data)
+
     return <>
         <p>
             This is a temporary page of Professor David MacKay's book Sustainable
@@ -34,6 +47,34 @@ export default function Posts()
                 this project I raised some questions</a>.
             I would be grateful for your assistance if you are in a position to help
             answer them.  Thanks!
+        </p>
+
+        <hr />
+
+        <h2>UK Energy Summary</h2>
+
+        <p>
+            This page will contain all the sources of energy demand and supply
+            that Professor MacKay had included in his summary
+            on <a href="https://www.withouthotair.com/c18/page_103.shtml">page 103</a>.
+        </p>
+
+        <EnergyBoxesHelper
+            render_up_to="Geothermal"
+            data_getter={components}
+        />
+
+        <br />
+        <br />
+
+        <hr />
+
+        <br />
+        <br />
+
+        <p>
+            Example of how a chapter could be updated to include links to
+            individual pages for all data points and calculations:
         </p>
 
         {pages.map(page =>
