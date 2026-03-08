@@ -23,33 +23,6 @@
 }
 
 
-#time-and-tags
-{
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-#tags
-{
-    font-size: 0.9em;
-    color: #888;
-
-    display: flex;
-    gap: 10px;
-}
-
-#tags .tag
-{
-    background-color: #eee;
-    padding: 4px 8px;
-    border-radius: 4px;
-    /* cursor: pointer; */
-    cursor: default;
-}
-
 
 #withouthotair-body {
     display: flex;

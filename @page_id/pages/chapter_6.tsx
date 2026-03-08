@@ -4,6 +4,7 @@ import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 import { factory_anchor_tag } from "../../../../components/DataComponentToString"
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
 import { data_components_json_to_getter } from "../../../../utils/data_components_json_to_map"
+import { EnergyBoxesHelper } from "../../components/EnergyBoxesHelper"
 import { Page } from "../../interface"
 
 
@@ -13,6 +14,8 @@ const efficiency_of_solar_hot_water = IdAndVersion.from_str("1194v1")
 const area_south_roofs_per_person_UK = IdAndVersion.from_str("1192v1")
 const average_solar_power_per_area_south_roofs_UK = IdAndVersion.from_str("1181v1")
 const solar_heating_potential_per_person_UK = IdAndVersion.from_str("1191v4")
+const solar_panel_efficiency = IdAndVersion.from_str("1200v1")
+const solar_pv_potential_per_person_UK = IdAndVersion.from_str("1202v1")
 const ids = [
     power_of_sunlight,
     average_sunshine_power_on_roof,
@@ -115,12 +118,7 @@ export const chapter_6: Page<DataComponentAsJSON[]> = {
                 area per person than the national average. Furthermore, this power would
                 be delivered non-uniformly through the year.
             </p>
-            <EnergyBoxes factors={[
-                { name: "Car", kWh_per_day: 40, type: "sink" },
-                { name: "Jet flights", kWh_per_day: 30, type: "sink" },
-                { name: "Wind", kWh_per_day: 20, type: "source" },
-                { name: "Solar heating", kWh_per_day: 13, type: "weak_source", link: solar_heating_potential_per_person_UK.to_url()},
-            ]} />
+            <EnergyBoxesHelper render_up_to="Solar heating" data_getter={components} />
         </>
     },
 }
@@ -132,84 +130,4 @@ function Claim (props: { children: React.ReactNode })
     return <span style={{ fontStyle: "italic", textDecoration: "underline dotted" }}>
         {props.children}
     </span>
-}
-
-
-interface EnergyFactor
-{
-    name: string
-    kWh_per_day: number
-    type: "sink" | "source" | "weak_source"
-    link?: string
-}
-
-
-const hf = 5
-function EnergyBoxes(props: { factors: EnergyFactor[] })
-{
-    // Display each factor as a box of the appropriate height.
-    const sinks = props.factors.filter(f => f.type === "sink").reverse()
-    const sources = props.factors.filter(f => f.type !== "sink").reverse()
-
-    return <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexDirection: "row" }}>
-        <div style={{ display: "flex", alignItems: "flex-end", flexDirection: "column" }}>
-            {sinks.map((factor, i) => <FactorToBox
-                key={i}
-                factor={factor}
-            />)}
-        </div>
-
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", flexDirection: "column" }}>
-            {sources.map((factor, i) => <FactorToBox
-                key={i}
-                factor={factor}
-            />)}
-        </div>
-    </div>
-}
-
-
-const factor_wrap_style: React.CSSProperties = {
-    display: "flex",
-    height: "100%",
-    justifyContent: "center",
-    padding: 8,
-}
-
-function FactorToBox(props: { factor: EnergyFactor })
-{
-    const { factor } = props
-
-    return <div style={{
-        height: factor.kWh_per_day * hf,
-        border: "thin solid " + (factor.type === "sink" ? "red" : "green"),
-        backgroundColor: factor.type === "sink" ? "rgb(255, 220, 220)" : factor.type === "source" ? "lightgreen" : "white",
-        width: 150,
-    }}>
-        {factor.link
-            ? <a
-                href={factor.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={factor_wrap_style}
-            >
-                <FactorToText factor={factor} />
-            </a>
-            : <FactorToText factor={factor} />}
-    </div>
-}
-
-
-function FactorToText(props: { factor: EnergyFactor })
-{
-    return <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100%",
-    }}>
-        {props.factor.name}:
-        <b>{props.factor.kWh_per_day} kWh/d</b>
-    </div>
 }
