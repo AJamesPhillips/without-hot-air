@@ -10,14 +10,14 @@ export function EnergyBoxes(props: { factors: EnergyFactor[] })
     const sources = props.factors.filter(f => f.type !== "sink").reverse()
 
     return <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexDirection: "row" }}>
-        <div style={{ display: "flex", alignItems: "flex-end", flexDirection: "column" }}>
+        <div style={{ display: "flex", justifyContent: "end", flexDirection: "column" }}>
             {sinks.map((factor, i) => <FactorToBox
                 key={i}
                 factor={factor}
             />)}
         </div>
 
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "flex-end", flexDirection: "column" }}>
+        <div style={{ display: "flex", justifyContent: "end", flexDirection: "column" }}>
             {sources.map((factor, i) => <FactorToBox
                 key={i}
                 factor={factor}

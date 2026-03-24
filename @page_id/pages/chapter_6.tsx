@@ -1,10 +1,12 @@
-import { IdAndVersion } from "../../../../wikisim-core/src/data/id"
 import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 
 import { factory_anchor_tag } from "../../../../components/DataComponentToString"
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
 import { data_components_json_to_getter } from "../../../../utils/data_components_json_to_map"
+import { IdAndVersion } from "../../../../wikisim-core/src/data/id"
+import { ids } from "../../components/data"
 import { EnergyBoxesHelper } from "../../components/EnergyBoxesHelper"
+import { chapter_6_page } from "../../constants"
 import { Page } from "../../interface"
 
 
@@ -16,7 +18,7 @@ const average_solar_power_per_area_south_roofs_UK = IdAndVersion.from_str("1181v
 const solar_heating_potential_per_person_UK = IdAndVersion.from_str("1191v4")
 const solar_panel_efficiency = IdAndVersion.from_str("1200v1")
 const solar_pv_potential_per_person_UK = IdAndVersion.from_str("1202v1")
-const ids = [
+const specific_ids = [
     power_of_sunlight,
     average_sunshine_power_on_roof,
     efficiency_of_solar_hot_water,
@@ -25,11 +27,13 @@ const ids = [
     solar_heating_potential_per_person_UK,
 ]
 
+
 export const chapter_6: Page<DataComponentAsJSON[]> = {
     title: "Chapter 6: Solar",
-    page_id: "solar",
-    path: "/TEMPORARY_withouthotair/solar",
-    get_data: () => __dangerously_get_wikisim_components(ids),
+    summary_description: "An example of how a chapter could be updated to include links to individual pages for all data points and calculations.",
+    page_id: chapter_6_page.id,
+    path: chapter_6_page.path,
+    get_data: () => __dangerously_get_wikisim_components([...ids, ...specific_ids]),
     body: (_notes, data) =>
     {
         const components = data_components_json_to_getter(data)
@@ -67,17 +71,18 @@ export const chapter_6: Page<DataComponentAsJSON[]> = {
             </p>
             <p>
                 We can turn this raw power into useful power in four ways:
-
-                <ul>
-                    <li>1. Solar thermal: using the sunshine for direct heating of buildings or
-                        water.</li>
-                    <li>2. Solar photovoltaic: generating electricity.</li>
-                    <li>3. Solar biomass: using trees, bacteria, algae, corn, soy beans, or oilseed
-                        to make energy fuels, chemicals, or building materials.</li>
-                    <li>4. Food: the same as solar biomass, except we shovel the plants into
-                        humans or other animals.</li>
-                </ul>
             </p>
+
+            <ul>
+                <li>1. Solar thermal: using the sunshine for direct heating of buildings or
+                    water.</li>
+                <li>2. Solar photovoltaic: generating electricity.</li>
+                <li>3. Solar biomass: using trees, bacteria, algae, corn, soy beans, or oilseed
+                    to make energy fuels, chemicals, or building materials.</li>
+                <li>4. Food: the same as solar biomass, except we shovel the plants into
+                    humans or other animals.</li>
+            </ul>
+
             <p>
                 (In a later chapter we'll also visit a couple of other solar power techniques
                 appropriate for use in deserts.)

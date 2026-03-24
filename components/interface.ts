@@ -10,11 +10,13 @@ export type EnergyFactorName = (
     "Stuff" |
     "Transporting stuff" |
     "Defence" |
+
     "Onshore wind" |
     "Solar heating" |
     "PV residential" |
     "PV farm" |
     "Biomass: food, biofuel, wood, waste incineration, landfill gas" |
+    "Hydroelectricity" |
     "Shallow offshore wind" |
     "Deep offshore wind" |
     "Wave" |
@@ -26,6 +28,7 @@ export interface EnergyFactor
 {
     name: EnergyFactorName
     font_size: number
+    order: number
     kWh_per_day_per_person: number
     type: "sink" | "source" | "weak_source"
     link: string

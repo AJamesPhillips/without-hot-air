@@ -122,3 +122,16 @@ p
 {
     text-align: justify;
 }
+
+
+.context-box
+{
+    background-color: #f0f0f0;
+    border-left: 4px solid #ccc;
+    padding: 10px 16px;
+    margin: 20px 0 40px 0;
+    border-radius: 5px;
+    font-size: 0.95em;
+    color: #555;
+    text-emphasis: italic;
+}
