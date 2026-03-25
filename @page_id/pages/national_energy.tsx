@@ -2,13 +2,10 @@ import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
 import { data_components_json_to_getter } from "../../../../utils/data_components_json_to_map"
-import {
-    ids
-} from "../../components/data"
+import { ids } from "../../components/data"
 import { NationalEnergy } from "../../components/NationalEnergy"
 import { national_energy_page } from "../../constants"
 import { Page } from "../../interface"
-
 
 
 export const national_energy: Page<DataComponentAsJSON[]> = {

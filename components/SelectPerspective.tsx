@@ -1,8 +1,8 @@
 
 
 export type PerspectiveType = (
-    "2009, MACKAY"
-    | "WIKI"
+    "1239" // General
+    | "1252" // 2009, MacKay
 )
 
 interface SelectPerspectiveProps
@@ -14,8 +14,8 @@ interface SelectPerspectiveProps
 export function SelectPerspective(props: SelectPerspectiveProps)
 {
     const drop_down_options: { id: PerspectiveType, label: string }[] = [
-        { id: "2009, MACKAY", label: "2009, Prof David MacKay" },
-        { id: "WIKI", label: "Wiki" },
+        { id: "1252", label: "2009, Prof. MacKay" },
+        { id: "1239", label: "Wiki" },
     ]
 
     return <select

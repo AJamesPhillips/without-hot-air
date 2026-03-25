@@ -1,6 +1,6 @@
 
 import { DataComponentsGetter } from "../../../utils/data_components_json_to_map"
-import { map_name_to_id_and_version } from "./data"
+import { map_factor_name_to_id } from "./data"
 import { EnergyBoxes } from "./EnergyBoxes"
 import { EnergyFactor, EnergyFactorName } from "./interface"
 
@@ -59,13 +59,16 @@ function factors_up_to_with_data(name: EnergyFactorName, data_getter: DataCompon
     const factors = factors_up_to(name)
     factors.forEach(factor =>
     {
-        const id_and_version = map_name_to_id_and_version[factor.name]
-        if (!id_and_version)
+        const id_only = map_factor_name_to_id[factor.name]
+        if (!id_only)
         {
             factor.error = `No component IdAndVersion for factor ${factor.name}`
             return
         }
-        factor.link = id_and_version.to_url()
+
+        // Set the factor.link to a general URL of the data component in case
+        // the latest data component is not available to provide its version for the URL
+        factor.link = id_only.to_url()
 
         if (!data_getter)
         {
@@ -73,16 +76,19 @@ function factors_up_to_with_data(name: EnergyFactorName, data_getter: DataCompon
             return
         }
 
-        const data_component = data_getter(id_and_version)
+        const data_component = data_getter(id_only)
         if (!data_component)        {
-            factor.error = `Data component not found for IdAndVersion ${id_and_version.to_str()}`
+            factor.error = `Data component not found for IdAndVersion ${id_only.to_str()}`
             return
         }
+
+        // Update the factor.link with the versioned URL of the data component
+        factor.link = data_component.id.to_url()
 
         const value = parseInt(data_component.result_value || "")
         if (Number.isNaN(value))
         {
-            factor.error = `Result value for component ${id_and_version.to_str()} is not a number: ${data_component.result_value}`
+            factor.error = `Result value for component ${id_only.to_str()} is not a number: ${data_component.result_value}`
             return
         }
 
