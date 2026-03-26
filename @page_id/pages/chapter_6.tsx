@@ -36,8 +36,8 @@ export const chapter_6: Page<DataComponentAsJSON[]> = {
     get_data: () => __dangerously_get_wikisim_components([...ids, ...specific_ids]),
     body: (_notes, data) =>
     {
-        const components = data_components_json_to_getter(data)
-        const anchor_tag = factory_anchor_tag(components, true)
+        const lookup_components = data_components_json_to_getter(data)
+        const anchor_tag = factory_anchor_tag(lookup_components, true)
 
         return <>
             <p>
@@ -123,7 +123,11 @@ export const chapter_6: Page<DataComponentAsJSON[]> = {
                 area per person than the national average. Furthermore, this power would
                 be delivered non-uniformly through the year.
             </p>
-            <EnergyBoxesHelper render_up_to="Solar heating" data_getter={components} />
+            {lookup_components && <EnergyBoxesHelper
+                render_up_to="Solar heating"
+                lookup_component={lookup_components}
+                lookup_alternative={() => false}
+            />}
         </>
     },
 }

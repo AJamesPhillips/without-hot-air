@@ -1,5 +1,7 @@
 
 import { DataComponentsGetter } from "../../../utils/data_components_json_to_map"
+import { IdOnly } from "../../../wikisim-core/src/data/id"
+import { LookupAlternative } from "../utils/lookup_alternative"
 import { map_factor_name_to_id } from "./data"
 import { EnergyBoxes } from "./EnergyBoxes"
 import { EnergyFactor, EnergyFactorName } from "./interface"
@@ -54,29 +56,26 @@ function factors_up_to(name: EnergyFactorName): EnergyFactor[]
 }
 
 
-function factors_up_to_with_data(name: EnergyFactorName, data_getter: DataComponentsGetter): EnergyFactor[]
+function factors_up_to_with_data(name: EnergyFactorName, lookup_component: DataComponentsGetter, lookup_alternative: LookupAlternative): EnergyFactor[]
 {
     const factors = factors_up_to(name)
     factors.forEach(factor =>
     {
-        const id_only = map_factor_name_to_id[factor.name]
+        let id_only = map_factor_name_to_id[factor.name]
         if (!id_only)
         {
             factor.error = `No component IdAndVersion for factor ${factor.name}`
             return
         }
 
+        const result = lookup_alternative(id_only.id)
+        if (result && result.type === "alternative") id_only = new IdOnly(result.alternative.id)
+
         // Set the factor.link to a general URL of the data component in case
         // the latest data component is not available to provide its version for the URL
         factor.link = id_only.to_url()
 
-        if (!data_getter)
-        {
-            factor.error = `No data component getter provided`
-            return
-        }
-
-        const data_component = data_getter(id_only)
+        const data_component = lookup_component(id_only)
         if (!data_component)        {
             factor.error = `Data component not found for IdAndVersion ${id_only.to_str()}`
             return
@@ -99,9 +98,15 @@ function factors_up_to_with_data(name: EnergyFactorName, data_getter: DataCompon
 }
 
 
-export function EnergyBoxesHelper(props: { render_up_to: EnergyFactorName, data_getter: DataComponentsGetter })
+interface EnergyBoxesHelperProps
 {
-    const factors = factors_up_to_with_data(props.render_up_to, props.data_getter)
+    render_up_to: EnergyFactorName
+    lookup_component: DataComponentsGetter
+    lookup_alternative: LookupAlternative
+}
+export function EnergyBoxesHelper(props: EnergyBoxesHelperProps)
+{
+    const factors = factors_up_to_with_data(props.render_up_to, props.lookup_component, props.lookup_alternative)
 
     return <EnergyBoxes factors={factors} />
 }

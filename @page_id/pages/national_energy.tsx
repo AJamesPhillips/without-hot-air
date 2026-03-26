@@ -1,7 +1,8 @@
 import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 
+import { useMemo } from "react"
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
-import { data_components_json_to_getter } from "../../../../utils/data_components_json_to_map"
+import { data_components_json_to_getter, data_components_json_to_map } from "../../../../utils/data_components_json_to_map"
 import { ids } from "../../components/data"
 import { NationalEnergy } from "../../components/NationalEnergy"
 import { national_energy_page } from "../../constants"
@@ -16,7 +17,9 @@ export const national_energy: Page<DataComponentAsJSON[]> = {
     get_data: () => __dangerously_get_wikisim_components(ids),
     body: (_notes, data) =>
     {
-        const components = data_components_json_to_getter(data)
+        // console.log("Data for National Energy page:", data)
+        const components_getter = useMemo(() => data_components_json_to_getter(data), [data])
+        const components = useMemo(() => Object.values(data_components_json_to_map(data || [])), [data])
         // const anchor_tag = factory_anchor_tag(components, true)
 
         return <>
@@ -71,7 +74,7 @@ export const national_energy: Page<DataComponentAsJSON[]> = {
             <p> </p>
             <p> </p>
 
-            <NationalEnergy components={components} />
+            {components_getter && <NationalEnergy components={components} components_getter={components_getter} />}
         </>
     },
 }
