@@ -30,6 +30,7 @@ export interface EnergyFactor
     font_size: number
     order: number
     kWh_per_day_per_person: number
+    alternative_kWh_per_day_per_person?: number
     type: "sink" | "source" | "weak_source"
     link: string
     error?: string

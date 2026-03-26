@@ -2,8 +2,8 @@ import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 
 import { useMemo } from "react"
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
-import { data_components_json_to_getter, data_components_json_to_map } from "../../../../utils/data_components_json_to_map"
-import { ids } from "../../components/data"
+import { data_components_json_to_map } from "../../../../utils/data_components_json_to_map"
+import { top_ids_to_fetch } from "../../components/data"
 import { NationalEnergy } from "../../components/NationalEnergy"
 import { national_energy_page } from "../../constants"
 import { Page } from "../../interface"
@@ -14,13 +14,11 @@ export const national_energy: Page<DataComponentAsJSON[]> = {
     summary_description: "An interactive energy balance sheet for the UK",
     page_id: national_energy_page.id,
     path: national_energy_page.path,
-    get_data: () => __dangerously_get_wikisim_components(ids),
+    get_data: () => __dangerously_get_wikisim_components(top_ids_to_fetch),
     body: (_notes, data) =>
     {
-        // console.log("Data for National Energy page:", data)
-        const components_getter = useMemo(() => data_components_json_to_getter(data), [data])
+        const components_map = useMemo(() => data_components_json_to_map(data), [data])
         const components = useMemo(() => Object.values(data_components_json_to_map(data || [])), [data])
-        // const anchor_tag = factory_anchor_tag(components, true)
 
         return <>
             <p>
@@ -32,6 +30,17 @@ export const national_energy: Page<DataComponentAsJSON[]> = {
                 discussion about the options for powering the UK and ensuring everyone prospers.
             </p>
             <ul>
+                <li>
+                    How has the demand side changed with:
+                    <ul>
+                        <li>
+                            Increased electrification of transport and heating?
+                        </li>
+                        <li>
+                            Increased efficiency of light, gadgets, heating and cooling?
+                        </li>
+                    </ul>
+                </li>
                 <li>
                     Can we only meet demand with nuclear power stations?
                 </li>
@@ -49,6 +58,9 @@ export const national_energy: Page<DataComponentAsJSON[]> = {
                         </li>
                         <li>
                             Compressed air energy storage?  Redox flow batteries?
+                        </li>
+                        <li>
+                            Increased population (all per capita numbers will be less on supply side?)
                         </li>
                     </ul>
                 </li>
@@ -74,7 +86,7 @@ export const national_energy: Page<DataComponentAsJSON[]> = {
             <p> </p>
             <p> </p>
 
-            {components_getter && <NationalEnergy components={components} components_getter={components_getter} />}
+            {components_map && <NationalEnergy components={components} components_map={components_map} />}
         </>
     },
 }

@@ -5,6 +5,12 @@ import { EnergyFactorName } from "./interface"
 const uk_budget_general = new IdOnly(1239)
 const uk_budget_mackay_2009 = new IdOnly(1252)
 
+// Will be fetched, and will recursively fetch all their dependencies.
+export const top_ids_to_fetch = [
+    uk_budget_general,
+    uk_budget_mackay_2009,
+]
+
 const cars_uk = new IdOnly(1205)
 const planes_uk = new IdOnly(1209)
 const heating_cooling_uk = new IdOnly(1220)
@@ -26,63 +32,6 @@ const deep_offshore_wind_UK = new IdOnly(1223)
 const wave_UK = new IdOnly(1224)
 const tide_UK = new IdOnly(1225)
 const geothermal_UK = new IdOnly(1226)
-
-export const ids = [
-    uk_budget_general,
-    uk_budget_mackay_2009,
-
-    // cars_uk,
-    // planes_uk,
-    // heating_cooling_uk,
-    // lighting_uk,
-    // gadgets_uk,
-    // food_and_farming_uk,
-    // producing_stuff_uk,
-    // transporting_stuff_uk,
-
-    // onshore_wind,
-    // solar_heating_potential_per_person_UK,
-    // solar_residential_pv_potential_per_person_UK,
-    // solar_farm_pv_potential_per_person_UK,
-    // biofuel_potential_per_person_UK,
-    // hydro_UK,
-    // shallow_offshore_wind_UK,
-    // deep_offshore_wind_UK,
-    // wave_UK,
-    // tide_UK,
-    // geothermal_UK,
-]
-
-
-// export const ids_map = {
-//     uk_budget_general,
-//     uk_budget_mackay_2009,
-
-//     // cars_uk,
-//     // planes_uk,
-//     // heating_cooling_uk,
-//     // lighting_uk,
-//     // gadgets_uk,
-//     // food_and_farming_uk,
-//     // producing_stuff_uk,
-//     // transporting_stuff_uk,
-
-//     // onshore_wind,
-//     // solar_heating_potential_per_person_UK,
-//     // solar_residential_pv_potential_per_person_UK,
-//     // solar_farm_pv_potential_per_person_UK,
-//     // biofuel_potential_per_person_UK,
-//     // hydro_UK,
-//     // shallow_offshore_wind_UK,
-//     // deep_offshore_wind_UK,
-//     // wave_UK,
-//     // tide_UK,
-//     // geothermal_UK,
-// }
-
-
-// console.assert(ids.length === Object.keys(ids_map).length, "Ids array and ids_map should have the same number of entries")
-
 
 export const map_factor_name_to_id: Record<EnergyFactorName, IdOnly | undefined> = {
     "Car": cars_uk,

@@ -2,7 +2,6 @@ import { format_number_to_significant_figures } from "../../../wikisim-core/src/
 import { EnergyFactor } from "./interface"
 
 
-const hf = 5
 export function EnergyBoxes(props: { factors: EnergyFactor[] })
 {
     // Display each factor as a box of the appropriate height.
@@ -27,14 +26,33 @@ export function EnergyBoxes(props: { factors: EnergyFactor[] })
 }
 
 
+
+export function EnergyBoxStack(props: { name: string, factors: EnergyFactor[], is_comparison: boolean })
+{
+    return <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+        <div style={{ textAlign: "center", marginBottom: 14, fontWeight: "bold" }}>{props.name}</div>
+        <div style={{ display: "flex", justifyContent: "end", flexDirection: "column" }}>
+            {props.factors.map((factor, i) => <FactorToBox
+                key={i}
+                factor={factor}
+                is_comparison={props.is_comparison}
+            />)}
+            <div style={{ textAlign: "center", marginTop: 8, fontWeight: "bold" }}>{props.name}</div>
+        </div>
+    </div>
+}
+
+
+
 const factor_wrap_style: React.CSSProperties = {
     display: "flex",
     height: "100%",
     justifyContent: "center",
     padding: 8,
 }
+const hf = 5
 
-function FactorToBox(props: { factor: EnergyFactor })
+function FactorToBox(props: { factor: EnergyFactor, is_comparison?: boolean })
 {
     const { factor } = props
 
@@ -61,16 +79,16 @@ function FactorToBox(props: { factor: EnergyFactor })
                 rel="noopener noreferrer"
                 style={factor_wrap_style}
             >
-                <FactorToText factor={factor} />
+                <FactorToText factor={factor} is_comparison={props.is_comparison} />
             </a>
-            : <FactorToText factor={factor} />}
+            : <FactorToText factor={factor} is_comparison={props.is_comparison} />}
     </div>
 }
 
 
-function FactorToText(props: { factor: EnergyFactor })
+function FactorToText(props: { factor: EnergyFactor, is_comparison?: boolean })
 {
-    const { factor } = props
+    const { factor, is_comparison } = props
 
     return <div style={{
         display: "flex",
@@ -82,6 +100,7 @@ function FactorToText(props: { factor: EnergyFactor })
         fontSize: factor.font_size,
     }}>
         {factor.name}:
-        <b>{format_number_to_significant_figures(factor.kWh_per_day_per_person, 2)} kWh/d</b>
+        <b>{format_number_to_significant_figures(factor.kWh_per_day_per_person, 2)} kWh/d/p</b>
+        {is_comparison && factor.alternative_kWh_per_day_per_person}
     </div>
 }

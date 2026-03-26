@@ -1,9 +1,8 @@
 
-import { DataComponentsGetter } from "../../../utils/data_components_json_to_map"
 import { IdOnly } from "../../../wikisim-core/src/data/id"
-import { LookupAlternative } from "../utils/lookup_alternative"
+import { DataComponent } from "../../../wikisim-core/src/data/interface"
+import { Graph, GraphNode } from "../utils/graph"
 import { map_factor_name_to_id } from "./data"
-import { EnergyBoxes } from "./EnergyBoxes"
 import { EnergyFactor, EnergyFactorName } from "./interface"
 
 
@@ -47,7 +46,7 @@ function all_factors(): EnergyFactor[]
 }
 
 
-function factors_up_to(name: EnergyFactorName): EnergyFactor[]
+function filter_factors_up_to(name: EnergyFactorName): EnergyFactor[]
 {
     const factors = all_factors()
     const index = factors.findIndex(f => f.name === name)
@@ -56,27 +55,38 @@ function factors_up_to(name: EnergyFactorName): EnergyFactor[]
 }
 
 
-function factors_up_to_with_data(name: EnergyFactorName, lookup_component: DataComponentsGetter, lookup_alternative: LookupAlternative): EnergyFactor[]
+export function factors_up_to(name: EnergyFactorName, graph: Graph): EnergyFactor[]
 {
-    const factors = factors_up_to(name)
+    const factors = filter_factors_up_to(name)
+        // .filter(factor => factor.name === "Heating, cooling")
+
     factors.forEach(factor =>
     {
-        let id_only = map_factor_name_to_id[factor.name]
+        const id_only = map_factor_name_to_id[factor.name]
         if (!id_only)
         {
             factor.error = `No component IdAndVersion for factor ${factor.name}`
             return
         }
 
-        const result = lookup_alternative(id_only.id)
-        if (result && result.type === "alternative") id_only = new IdOnly(result.alternative.id)
+        const mapped_entry_id = graph.map_concept_id_to_id_of_interest[id_only.id]
+        const entry = graph.nodes["" + mapped_entry_id]
+
+        let alternative_id_only: IdOnly | undefined
+        let alternative_entry: GraphNode | undefined
+        if (entry && entry.alternatives?.length)
+        {
+            alternative_id_only = new IdOnly(entry.alternatives[0]!)
+            alternative_entry = graph.nodes[alternative_id_only.id]
+        }
 
         // Set the factor.link to a general URL of the data component in case
         // the latest data component is not available to provide its version for the URL
-        factor.link = id_only.to_url()
+        factor.link = (alternative_id_only || id_only).to_url()
 
-        const data_component = lookup_component(id_only)
-        if (!data_component)        {
+        const data_component = entry?.component
+        if (!data_component)
+        {
             factor.error = `Data component not found for IdAndVersion ${id_only.to_str()}`
             return
         }
@@ -84,29 +94,31 @@ function factors_up_to_with_data(name: EnergyFactorName, lookup_component: DataC
         // Update the factor.link with the versioned URL of the data component
         factor.link = data_component.id.to_url()
 
-        const value = parseInt(data_component.result_value || "")
-        if (Number.isNaN(value))
-        {
-            factor.error = `Result value for component ${id_only.to_str()} is not a number: ${data_component.result_value}`
-            return
-        }
+        const value = get_value(data_component, factor)
+        if (factor.error) return
 
         factor.kWh_per_day_per_person = value
+
+        if (alternative_entry)
+        {
+            const value = get_value(alternative_entry.component, factor)
+            if (factor.error) return
+            factor.alternative_kWh_per_day_per_person = value
+        }
     })
 
     return factors
 }
 
 
-interface EnergyBoxesHelperProps
+function get_value(data_component: DataComponent | undefined, factor: EnergyFactor): number
 {
-    render_up_to: EnergyFactorName
-    lookup_component: DataComponentsGetter
-    lookup_alternative: LookupAlternative
-}
-export function EnergyBoxesHelper(props: EnergyBoxesHelperProps)
-{
-    const factors = factors_up_to_with_data(props.render_up_to, props.lookup_component, props.lookup_alternative)
+    const value = parseInt(data_component?.result_value || "")
+    if (Number.isNaN(value))
+    {
+        factor.error = `Result value for component ${data_component?.id.to_str()} is not a number: ${data_component?.result_value}`
+        return 0
+    }
 
-    return <EnergyBoxes factors={factors} />
+    return value
 }
