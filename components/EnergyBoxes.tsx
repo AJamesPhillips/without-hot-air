@@ -29,7 +29,7 @@ export function EnergyBoxes(props: { factors: EnergyFactor[] })
 
 export function EnergyBoxStack(props: { name: string, factors: EnergyFactor[], is_comparison: boolean })
 {
-    return <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+    return <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "column", padding: "0 10px" }}>
         <div style={{ textAlign: "center", marginBottom: 14, fontWeight: "bold" }}>{props.name}</div>
         <div style={{ display: "flex", justifyContent: "end", flexDirection: "column" }}>
             {props.factors.map((factor, i) => <FactorToBox

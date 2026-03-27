@@ -54,7 +54,13 @@ export function NationalEnergy(props: { components: DataComponent[], components_
             />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexDirection: "row" }}>
+        <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            // gap: "20px",
+            flexDirection: "row",
+            overflowX: "scroll",
+        }}>
             {persectives.map((p, index) => (
                 <EnergyBoxStack
                     key={p.id}

@@ -1,4 +1,5 @@
 import { without_hot_air_url } from "../constants"
+import { maybe_document_pathname } from "../utils/maybe_document_pathname"
 
 
 export function ProjectHeaderInfo()
@@ -11,17 +12,4 @@ export function ProjectHeaderInfo()
         David MacKay's book <a href="https://www.withouthotair.com">Sustainable
         Energy Without the Hot Air</a>. <b>This project page will likely move in the near future.</b>
     </p>
-}
-
-
-function maybe_document_pathname()
-{
-    if (typeof document === "undefined")
-    {
-        return ""
-    }
-    else
-    {
-        return document.location.pathname
-    }
 }
