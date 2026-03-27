@@ -42,7 +42,7 @@ export const chapter_6: Page<DataComponentAsJSON[]> = {
         const components_map = data_components_json_to_map(data)
         const anchor_tag = factory_anchor_tag(data ? components_map : undefined, true)
 
-        const graph = make_graph(components_map, perspective_id_general)
+        const graph = make_graph(components_map, { id_of_interest: perspective_id_general})
         const factors = factors_up_to("Solar heating", graph)
 
         return <>
