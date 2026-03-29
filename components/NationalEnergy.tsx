@@ -56,8 +56,8 @@ export function NationalEnergy(props: { components: DataComponent[], components_
 
         <div style={{
             display: "flex",
-            justifyContent: "space-between",
-            // gap: "20px",
+            // justifyContent: "center",
+            gap: "20px",
             flexDirection: "row",
             overflowX: "scroll",
         }}>
