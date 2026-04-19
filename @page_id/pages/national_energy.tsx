@@ -1,6 +1,7 @@
+import { useMemo } from "react"
+
 import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 
-import { useMemo } from "react"
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
 import { data_components_json_to_map } from "../../../../utils/data_components_json_to_map"
 import { top_ids_to_fetch } from "../../components/data"

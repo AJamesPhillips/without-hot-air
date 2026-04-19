@@ -1,8 +1,9 @@
 import { useMemo, useState } from "react"
 
-import { DataComponentsMap } from "../../../utils/data_components_json_to_map"
-import { DataComponent } from "../../../wikisim-core/src/data/interface"
-import { make_graph } from "../utils/graph"
+import { DataComponent, DataComponentsById } from "../../../wikisim-core/src/data/interface"
+import { make_graph } from "../../../wikisim-core/src/data/utils/graph"
+
+import { get_DOM_parser } from "../utils/get_DOM_parser"
 import { EnergyBoxStack } from "./EnergyBoxes"
 import { factors_up_to } from "./EnergyBoxesHelper"
 import {
@@ -15,19 +16,21 @@ import {
 
 
 
-export function NationalEnergy(props: { components: DataComponent[], components_map: DataComponentsMap })
+export function NationalEnergy(props: { components: DataComponent[], components_map: DataComponentsById })
 {
     const { components_map } = props
     const [perspective_ids, set_perspective_ids] = useState<PerspectiveType[]>([
         perspective_id_2009_mackay, perspective_id_general
     ])
 
+    const parser = useMemo(() => get_DOM_parser(), [])
+
 
     const persectives = useMemo(() =>
     {
         return perspective_ids.map(perspective_id =>
         {
-            const graph = make_graph(components_map, {
+            const graph = make_graph(parser, components_map, {
                 id_of_concepts: perspective_id_general,
                 id_of_interest: perspective_id,
                 id_of_comparison: perspective_ids[0],

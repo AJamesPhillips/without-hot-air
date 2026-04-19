@@ -1,7 +1,7 @@
 import { JSX, useEffect, useRef, useState } from "react"
 
 import type { DataComponent } from "../../../wikisim-core/src/data/interface"
-import { Graph } from "../utils/graph"
+import { Graph } from "../../../wikisim-core/src/data/utils/graph"
 
 
 // ─── Layout constants ──────────────────────────────────────────────────────────

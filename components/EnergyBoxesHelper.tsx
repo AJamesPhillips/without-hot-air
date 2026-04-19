@@ -1,7 +1,7 @@
 
 import { IdOnly } from "../../../wikisim-core/src/data/id"
 import { DataComponent } from "../../../wikisim-core/src/data/interface"
-import { Graph, GraphNode } from "../utils/graph"
+import { Graph, GraphNode } from "../../../wikisim-core/src/data/utils/graph"
 import { map_factor_name_to_id } from "./data"
 import { EnergyFactor, EnergyFactorName } from "./interface"
 

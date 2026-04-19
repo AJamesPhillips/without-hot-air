@@ -1,16 +1,18 @@
 import { DataComponentAsJSON } from "../../../../wikisim-core/src/supabase"
 
+import { useMemo } from "react"
 import { factory_anchor_tag } from "../../../../components/DataComponentToString"
 import { __dangerously_get_wikisim_components } from "../../../../utils/__dangerously_get_wikisim_components"
 import { data_components_json_to_map } from "../../../../utils/data_components_json_to_map"
 import { IdAndVersion } from "../../../../wikisim-core/src/data/id"
+import { make_graph } from "../../../../wikisim-core/src/data/utils/graph"
 import { top_ids_to_fetch } from "../../components/data"
 import { EnergyBoxes } from "../../components/EnergyBoxes"
 import { factors_up_to } from "../../components/EnergyBoxesHelper"
 import { perspective_id_general } from "../../components/SelectPerspective"
 import { chapter_6_page } from "../../constants"
 import { Page } from "../../interface"
-import { make_graph } from "../../utils/graph"
+import { get_DOM_parser } from "../../utils/get_DOM_parser"
 
 
 const power_of_sunlight = IdAndVersion.from_str("1180v1")
@@ -39,10 +41,12 @@ export const chapter_6: Page<DataComponentAsJSON[]> = {
     get_data: () => __dangerously_get_wikisim_components([...top_ids_to_fetch, ...specific_ids]),
     body: (_notes, data) =>
     {
+        const parser = useMemo(() => get_DOM_parser(), [])
+
         const components_map = data_components_json_to_map(data)
         const anchor_tag = factory_anchor_tag(data ? components_map : undefined, true)
 
-        const graph = make_graph(components_map, { id_of_interest: perspective_id_general})
+        const graph = make_graph(parser, components_map, { id_of_interest: perspective_id_general})
         const factors = factors_up_to("Solar heating", graph)
 
         return <>
